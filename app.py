@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 import requests
 from bs4 import BeautifulSoup
-from lxml.html.clean import clean_html
 from jinja2 import Template
 import os
 
@@ -28,3 +27,4 @@ html = f.read()
 soup = BeautifulSoup(clean_html(html), 'lxml')
 
 print soup.find_all('li', 'nav-menu')
+t43e2`
