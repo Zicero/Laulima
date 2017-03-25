@@ -27,4 +27,3 @@ html = f.read()
 soup = BeautifulSoup(clean_html(html), 'lxml')
 
 print soup.find_all('li', 'nav-menu')
-t43e2`
