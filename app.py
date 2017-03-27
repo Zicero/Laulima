@@ -1,10 +1,9 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory
 from jinja2 import Template
 import json
-
 
 app = Flask(__name__)
 
@@ -39,6 +38,4 @@ def internal_error(error):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    if port == 5000:
-        app.debug = True
     app.run(host='0.0.0.0', port=port)
