@@ -14,12 +14,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('pages/login.html')
+    return render_template('pages/index.html')
+
+@app.route('/<path:path>')
+def static_proxy(path):
+  return app.send_static_file(path)
 
 @app.route('/login')
 def login():
-    # form = LoginForm(request.form)
-    return render_template('forms/login.html'''', form=form''')
+    return render_template('pages/login.html')
 
 @app.route('/favicon.ico')
 def favicon():
