@@ -11,9 +11,6 @@
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <script type="text/javascript">
-    {% block jquery %}{% endblock %}
-  </script>
   <main>
     {% block logform %}{% endblock %}
   </main>
@@ -22,5 +19,32 @@
   </footer>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+  <script>
+
+  $(document).ready(function() {
+    $("#submit").bind("click", validate);
+    function validate() {
+      $("#result").text("");
+      var email = $("#user_name").val();
+      var password = $('#password').val();
+      if (validateEmail(email)) {
+        $("#result").text(email + " is valid :)");
+        $("#result").css("color", "green");
+      } else {
+        $("#result").text(email + " is not valid :(");
+        $("#result").css("color", "red");
+      }
+      if (!password.length) {
+        $('#result').text("password is not valid :()")
+      }
+      return false;
+    }
+
+  function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  })
+  </script>
 </body>
 </html>
