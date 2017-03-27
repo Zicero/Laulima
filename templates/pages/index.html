@@ -15,15 +15,22 @@
         <div class="search-results"></div>
       </div>
     </li>
+    {% for item in nav %}
     <li class="bold">
-      <a href="/login" class="waves-effect waves-teal">Login</a>
+      <a href="{{ item.href }}" class="waves-effect waves-teal">{{ item.text }}</a>
     </li>
-    <li class="bold">
-      <a href="/class" class="waves-effect waves-teal">Class</a>
-    </li>
-    <li class="bold">
-      <a href="/resources" class="waves-effect waves-teal">Resources</a>
-    </li>
+    {% endfor %}
+    {#
+      <li class="bold">
+        <a href="/login" class="waves-effect waves-teal">Login</a>
+      </li>
+      <li class="bold">
+        <a href="/class" class="waves-effect waves-teal">Class</a>
+      </li>
+      <li class="bold">
+        <a href="/resources" class="waves-effect waves-teal">Resources</a>
+      </li>
+    #}
   </ul>
 {% endblock%}
 {% block content %}

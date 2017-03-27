@@ -3,18 +3,18 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, send_from_directory, request
 from jinja2 import Template
-# from wtforms import Form, TextField, BooleanField, StringField, PasswordField, validators
-# from wtforms.validators import Required
-#
-# class LoginForm(Form):
-#     openid = TextField('openid', validators = [Required()])
-#     remember_me = BooleanField('remember_me', default = False)
+import json
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('pages/index.html')
+    f = open('test.txt', 'r')
+    html = f.read()
+    # result = requests.get('https://laulima.hawaii.edu/portal')
+    soup = BeautifulSoup(html, 'lxml')
+    return render_template('pages/index.html', nav=json.dumps(dict(soup.find_all('li', 'nav-menu'))))
 
 @app.route('/<path:path>')
 def static_proxy(path):
@@ -42,13 +42,3 @@ if __name__ == '__main__':
     if port == 5000:
         app.debug = True
     app.run(host='0.0.0.0', port=port)
-
-f = open('test.txt', 'r')
-
-html = f.read()
-
-# result = requests.get('https://laulima.hawaii.edu/portal')
-
-soup = BeautifulSoup(html, 'lxml')
-
-print soup.find_all('li', 'nav-menu')
