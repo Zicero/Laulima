@@ -1,14 +1,8 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory
 from jinja2 import Template
-# from wtforms import Form, TextField, BooleanField, StringField, PasswordField, validators
-# from wtforms.validators import Required
-#
-# class LoginForm(Form):
-#     openid = TextField('openid', validators = [Required()])
-#     remember_me = BooleanField('remember_me', default = False)
 
 app = Flask(__name__)
 
@@ -16,10 +10,9 @@ app = Flask(__name__)
 def index():
     return render_template('pages/login.html')
 
-@app.route('/login')
-def login():
-    # form = LoginForm(request.form)
-    return render_template('forms/login.html'''', form=form''')
+@app.route('/<path:path>')
+def static_proxy(path):
+  return app.send_static_file(path)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -36,8 +29,6 @@ def internal_error(error):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    if port == 5000:
-        app.debug = True
     app.run(host='0.0.0.0', port=port)
 
 f = open('test.txt', 'r')
