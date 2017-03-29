@@ -1,15 +1,47 @@
 {% extends 'layouts/main.html' %}
-{% block title %} <-- PAGE TITLE --> {% endblock %}
+{% block title %}HOME{% endblock %}
 {% block sidebar %}
-  <-- NAV CONTENT HERE -->
+  {# <-- NAV CONTENT HERE --> #}
+  <ul id="nav-mobile" class="side-nav fixed" style="overflow: auto;">
+    <li class="logo">
+      <a id="logo-container" href="/" class="brand-logo">
+        <object id="front-page-logo" data="http://materializecss.com/res/materialize.svg" type="image/svg+xml"></object>
+      </a>
+    </li>
+    <li class="search">
+      <div class="search-wrapper card">
+        <input type="text" id="search">
+        <i class="material-icons">search</i>
+        <div class="search-results"></div>
+      </div>
+    </li>
+    {% for item in nav %}
+    <li class="bold">
+      <a href="{{ item.href }}" class="waves-effect waves-teal">{{ item.text }}</a>
+    </li>
+    {% endfor %}
+    {#
+      <li class="bold">
+        <a href="/login" class="waves-effect waves-teal">Login</a>
+      </li>
+      <li class="bold">
+        <a href="/class" class="waves-effect waves-teal">Class</a>
+      </li>
+      <li class="bold">
+        <a href="/resources" class="waves-effect waves-teal">Resources</a>
+      </li>
+    #}
+  </ul>
 {% endblock%}
 {% block content %}
-
+  {# <-- PAGE CONTENT --> #}
   <center>
     <h1>Hello World</h1>
   </center>
 
 {% endblock %}
 {% block footer %}
-  <-- FOOTER -->
+  {# <-- FOOTER --> #}
+  <div class="page-footer">
+  </div>
 {% endblock %}
