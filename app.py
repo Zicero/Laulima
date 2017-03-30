@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    f = open('test.txt', 'r')
+    f = open('copied_html/index.html', 'r')
     html = f.read()
     # result = requests.get('https://laulima.hawaii.edu/portal')
     soup = BeautifulSoup(html, 'lxml')
