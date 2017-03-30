@@ -13,7 +13,7 @@ def index():
     html = f.read()
     # result = requests.get('https://laulima.hawaii.edu/portal')
     soup = BeautifulSoup(html, 'lxml')
-    return render_template('pages/index.html', nav=json.dumps(dict(soup.find_all('li', 'nav-menu'))))
+    return render_template('pages/index.html', nav=[[cell.text for cell in soup.find_all('li', 'nav-menu')] for row in soup])
 
 @app.route('/<path:path>')
 def static_proxy(path):

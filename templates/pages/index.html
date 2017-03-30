@@ -15,10 +15,10 @@
         <div class="search-results"></div>
       </div>
     </li>
-    {% for item in nav %}
-    <li class="bold">
-      <a href="{{ item.href }}" class="waves-effect waves-teal">{{ item.text }}</a>
-    </li>
+    {% for item in nav[0] if item.find('[') > -1 %}
+      <li class="bold">
+        <a href="{{ item[item.find('[') + 1 : item.find(']')] }}" class="waves-effect waves-teal">{{ item }}</a>
+      </li>
     {% endfor %}
     {#
       <li class="bold">
