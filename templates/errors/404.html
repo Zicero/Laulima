@@ -1,6 +1,22 @@
-{% extends 'layouts/main.html' %}
+{% extends 'layouts/error.html' %}
 {% block content %}
-  <h1>Sorry ...</h1>
-  <p>There's nothing here!</p>
-  <p><a href="{{url_for('index')}}">Back</a></p>
+  <div id="clouds">
+      <div class="cloud x1"></div>
+      <div class="cloud x1_5"></div>
+      <div class="cloud x2"></div>
+      <div class="cloud x3"></div>
+      <div class="cloud x4"></div>
+      <div class="cloud x5"></div>
+  </div>
+  <div class='c'>
+      <div class='_404'>404</div>
+      <hr>
+      <div class='_1'>THE PAGE</div>
+      <div class='_2'>WAS NOT FOUND</div>
+      <a class='btn' href="{{url_for('index')}}">BACK</a>
+  </div>
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}

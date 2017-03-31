@@ -2,7 +2,6 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, send_from_directory
-from jinja2 import Template
 import json
 
 app = Flask(__name__)
@@ -13,7 +12,9 @@ def index():
     html = f.read()
     # result = requests.get('https://laulima.hawaii.edu/portal')
     soup = BeautifulSoup(html, 'lxml')
-    return render_template('pages/index.html', nav=[[cell.text for cell in soup.find_all('li', 'nav-menu')] for row in soup])
+    return render_template('pages/index.html',
+        nav=[[cell.text for cell in soup.find_all('li', 'nav-menu')] for row in soup]
+    )
 
 @app.route('/<path:path>')
 def static_proxy(path):
