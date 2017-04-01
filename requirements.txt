@@ -2,5 +2,6 @@ beautifulsoup4==4.4.1
 Flask==0.12
 gunicorn==19.7.1
 Jinja2==2.8
+lxml==3.7.3
 requests==2.9.1
 wtforms==2.1
