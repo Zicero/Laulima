@@ -12,8 +12,21 @@ def index():
     html = f.read()
     # result = requests.get('https://laulima.hawaii.edu/portal')
     soup = BeautifulSoup(html, 'lxml')
+    x = []
+    for li in soup.find_all('li', 'nav-menu'):
+        obj = {}
+        obj['text'] = li.find(text=True, recursive=True)
+        for ul in li.find_all('ul'):
+            obj['a'] = []
+            for a in ul.find_all('a'):
+                temp = {}
+                temp['href'] = a.href
+                temp['text'] =  a.getText()
+                obj['a'].append(temp)
+        x.append(obj)
     return render_template('pages/index.html',
-        nav=[[cell.text for cell in soup.find_all('li', 'nav-menu')] for row in soup]
+        nav=x
+        # nav=[[cell.a.getText() for cell in soup.find_all('li', 'nav-menu')] for row in soup]
     )
 
 @app.route('/<path:path>')

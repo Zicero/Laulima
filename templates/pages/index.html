@@ -17,17 +17,18 @@
     </li>
     <li class="no-padding">
       <ul class="collapsible collapsible-accordion">
-        {% for item in nav[0] if item.find('[') > -1 %}
+        {% for item in nav %}
           <li class="bold">
             <a class="collapsible-header waves-effect waves-teal">
-              {{ item }}
+              {{ item.text }}
             </a>
             <div class="collapsible-body">
               <ul>
-                <li><a href="#!">First</a></li>
-                <!-- <li><a href="#!">Second</a></li>
-                <li><a href="#!">Third</a></li>
-                <li><a href="#!">Fourth</a></li> -->
+                {% for tag in item.a %}
+                  <li>
+                    <a href="{{ tag.href }}">{{ tag.text }}</a>
+                  </li>
+                {% endfor %}
               </ul>
             </div>
           </li>
