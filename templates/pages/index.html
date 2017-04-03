@@ -15,11 +15,25 @@
         <div class="search-results"></div>
       </div>
     </li>
-    {% for item in nav[0] if item.find('[') > -1 %}
-      <li class="bold">
-        <a href="{{ item[item.find('[') + 1 : item.find(']')] }}" class="waves-effect waves-teal">{{ item }}</a>
-      </li>
-    {% endfor %}
+    <li class="no-padding">
+      <ul class="collapsible collapsible-accordion">
+        {% for item in nav[0] if item.find('[') > -1 %}
+          <li class="bold">
+            <a class="collapsible-header waves-effect waves-teal">
+              {{ item }}
+            </a>
+            <div class="collapsible-body">
+              <ul>
+                <li><a href="#!">First</a></li>
+                <!-- <li><a href="#!">Second</a></li>
+                <li><a href="#!">Third</a></li>
+                <li><a href="#!">Fourth</a></li> -->
+              </ul>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
     {#
       <li class="bold">
         <a href="/login" class="waves-effect waves-teal">Login</a>
