@@ -11,18 +11,14 @@ def index():
     f = open('copied_html/index.html', 'r')
     html = f.read()
     # result = requests.get('https://laulima.hawaii.edu/portal')
+    # Probably Selenium
     soup = BeautifulSoup(html, 'lxml')
     x = []
     for li in soup.find_all('li', 'nav-menu'):
-        obj = {}
-        obj['text'] = li.find(text=True, recursive=True)
+        obj = {'text': li.find(text=True, recursive=True), 'a': []}
         for ul in li.find_all('ul'):
-            obj['a'] = []
             for a in ul.find_all('a'):
-                temp = {}
-                temp['href'] = a.href
-                temp['text'] =  a.getText()
-                obj['a'].append(temp)
+                obj['a'].append({'href': a.href, 'text': a.getText()})
         x.append(obj)
     return render_template('pages/index.html',
         nav=x
