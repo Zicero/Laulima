@@ -26,7 +26,6 @@ def index():
         x.append(obj)
     return render_template('pages/index.html',
         nav=x
-        # nav=[[cell.a.getText() for cell in soup.find_all('li', 'nav-menu')] for row in soup]
     )
 
 @app.route('/<path:path>')

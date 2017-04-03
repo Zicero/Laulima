@@ -2,7 +2,14 @@
 {% block title %}HOME{% endblock %}
 {% block sidebar %}
   {# <-- NAV CONTENT HERE --> #}
-  <ul id="nav-mobile" class="side-nav fixed" style="overflow: auto;">
+  <div class="container">
+    <a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only">
+      <i class="material-icons">
+        menu
+      </i>
+    </a>
+  </div>
+  <ul id="nav-mobile" class="side-nav fixed">
     <li class="logo">
       <a id="logo-container" href="/" class="brand-logo">
         <object id="front-page-logo" data="{{ url_for('static', filename='img/penguin.svg') }}" type="image/svg+xml"></object>
