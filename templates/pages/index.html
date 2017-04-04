@@ -60,6 +60,7 @@
   <center>
     {% for section in body.sections %}
       <h1>{{ section.keys()[0] }}</h1>
+      <iframe src="{{section.values()[0]['src']}}" frameborder="0"></iframe>
     {% endfor %}
   </center>
 
