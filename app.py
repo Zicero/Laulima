@@ -13,6 +13,12 @@ def index():
     # result = requests.get('https://laulima.hawaii.edu/portal')
     # Probably Selenium
     soup = BeautifulSoup(html, 'lxml')
+    x = []
+    y = []
+    for title in soup.find_all('span', 'siteTitle'):
+        tit = title.get_text()
+        tit = tit[:-1]
+        y.append(tit)
     OBJ = {
         'nav': [],
         'body': {
@@ -47,6 +53,7 @@ def index():
                 obj['a'].append({'href': a.attrs['href'], 'text': a.getText()})
         OBJ['nav'].append(obj)
     return render_template('pages/index.html',
+        title=y[0],
         nav=OBJ['nav'],
         body=OBJ['body']
     )
