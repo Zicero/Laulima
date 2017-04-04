@@ -59,10 +59,16 @@
   {# <-- PAGE CONTENT --> #}
   <center>
     <h1> {{ title }} </h1>
-    {% for section in body.sections %}
-      <h1>{{ section.keys()[0] }}</h1>
-      <iframe src="{{section.values()[0]['src']}}" frameborder="0"></iframe>
-    {% endfor %}
+    <div class="row">
+      {% for section in body.sections %}
+        <div class="row">
+          <h4>{{ section.keys()[0] }}</h4>
+          <div class="row">
+            <iframe src="{{section.values()[0]['src']}}" style="height: 500px; width: 800px" frameborder="0"></iframe>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </center>
 
 {% endblock %}
