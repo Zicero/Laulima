@@ -14,6 +14,11 @@ def index():
     # Probably Selenium
     soup = BeautifulSoup(html, 'lxml')
     x = []
+    y = []
+    for title in soup.find_all('span', 'siteTitle'):
+        tit = title.get_text()
+        tit = tit[:-1]
+        y.append(tit)
     for li in soup.find_all('li', 'nav-menu'):
         obj = {'text': li.find(text=True, recursive=True), 'a': []}
         for ul in li.find_all('ul'):
@@ -21,7 +26,8 @@ def index():
                 obj['a'].append({'href': a.href, 'text': a.getText()})
         x.append(obj)
     return render_template('pages/index.html',
-        nav=x
+        nav=x,
+        title=y[0]
     )
 
 @app.route('/<path:path>')
