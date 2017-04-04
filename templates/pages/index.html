@@ -59,6 +59,9 @@
   {# <-- PAGE CONTENT --> #}
   <center>
     <h1> {{ title }} </h1>
+    {% for section in body.sections %}
+      <h1>{{ section.keys()[0] }}</h1>
+    {% endfor %}
   </center>
 
 {% endblock %}
