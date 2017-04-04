@@ -1,5 +1,5 @@
 import os
-import requests
+# import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, send_from_directory
 import json
@@ -13,15 +13,42 @@ def index():
     # result = requests.get('https://laulima.hawaii.edu/portal')
     # Probably Selenium
     soup = BeautifulSoup(html, 'lxml')
-    x = []
+    OBJ = {
+        'nav': [],
+        'body': {
+            'sections': []
+        }
+    }
+    # Content
+    titles = []
+    bodies = []
+    i = 0
+    for div in soup.find_all('div', 'portletTitleWrap'):
+        for title in div.find_all('div', 'title'):
+            titles.append(title.getText())
+    for div in soup.find_all('div', 'portletMainWrap'):
+        i = i + 1
+        iframe = div.find('iframe')
+        if (iframe):
+            obj = {'src': iframe.attrs['src']}
+            bodies.append(obj)
+        else:
+            titles.pop(i)
+
+    for idx, val in enumerate(titles):
+        obj = {}
+        obj[val] = bodies[idx]
+        OBJ['body']['sections'].append(obj)
+    # Nav Bar
     for li in soup.find_all('li', 'nav-menu'):
         obj = {'text': li.find(text=True, recursive=True), 'a': []}
         for ul in li.find_all('ul'):
             for a in ul.find_all('a'):
-                obj['a'].append({'href': a.href, 'text': a.getText()})
-        x.append(obj)
+                obj['a'].append({'href': a.attrs['href'], 'text': a.getText()})
+        OBJ['nav'].append(obj)
     return render_template('pages/index.html',
-        nav=x
+        nav=OBJ['nav'],
+        body=OBJ['body']
     )
 
 @app.route('/<path:path>')
