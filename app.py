@@ -3,6 +3,7 @@ import os
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, send_from_directory
 import json
+import urlparse
 
 app = Flask(__name__)
 
@@ -36,6 +37,8 @@ def index():
         i = i + 1
         iframe = div.find('iframe')
         if (iframe):
+            if(not bool(urlparse.urlparse(iframe.attrs['src']).netloc)):
+                iframe.attrs['src'] = 'https://laulima.hawaii.edu' + iframe.attrs['src']
             obj = {'src': iframe.attrs['src']}
             bodies.append(obj)
         else:
