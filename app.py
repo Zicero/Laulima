@@ -1,7 +1,7 @@
 import os
-# import requests
+import requests
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 import json
 import urlparse
 
@@ -63,6 +63,10 @@ def static_proxy(path):
 @app.route('/login')
 def login():
     return render_template('pages/login.html')
+
+@app.route('/login', methods=['POST'])
+def handle_data():
+    print request.form
 
 @app.route('/favicon.ico')
 def favicon():
