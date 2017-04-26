@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{% block title %}{% endblock %}</title>
+  <title>Laulima</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -13,20 +13,13 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/prism.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/ghpages-materialize.css') }}" media="screen,projection">
 </head>
-<body>
-  <header>
-    {% block sidebar %}{% endblock %}
-  </header>
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-  <footer>
-    {% block footer %}{% endblock %}
-  </footer>
+<body id="root">
+  <!-- Attach React components -->
+  <script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
   <script>
-    $(".button-collapse").sideNav();
-  </script>
+   $(".button-collapse").sideNav();
+   </script>
 </body>
 </html>

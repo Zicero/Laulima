@@ -1,26 +1,61 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory, request, redirect, url_for, jsonify
 import json
 import urlparse
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    f = open('copied_html/index.html', 'r')
-    html = f.read()
-    # result = requests.get('https://laulima.hawaii.edu/portal')
-    # Probably Selenium
-    soup = BeautifulSoup(html, 'lxml')
-    tit = soup.find('span', 'siteTitle').get_text()[:-1]
-    OBJ = {
-        'nav': [],
-        'body': {
-            'sections': []
-        }
+    return render_template('index.html')
+
+@app.route('/data')
+def data():
+    return render_template('index.html')
+
+@app.route('/<path:path>')
+def static_proxy(path):
+  return app.send_static_file(path)
+
+@app.route('/', methods=['POST'])
+def handle_data():
+    if (not request.form['username'] or not request.form['password']):
+        return redirect(url_for('index'))
+    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+    driver.set_window_size(1300, 700)
+    driver.get('https://laulima.hawaii.edu/portal/relogin')
+
+    username = driver.find_element_by_id("eid")
+    password = driver.find_element_by_id("pw")
+
+    username.send_keys(request.form['username'])
+    password.send_keys(request.form['password'])
+
+    driver.find_element_by_name("submit").click()
+
+    elements = driver.find_elements_by_class_name('alertMessage')
+
+    # Object to return
+    json = {
+        'data': {
+            'nav': [],
+            'body': {
+                'sections': []
+            }
+        },
+        'status_code': '',
+        'text': ''
     }
+    # Getting information
+    drop = driver.find_elements_by_class_name('drop')
+    for span in drop:
+        span.click()
+
+    soup = BeautifulSoup(driver.page_source, 'lxml')
     # Content
     titles = []
     bodies = []
@@ -42,44 +77,30 @@ def index():
     for idx, val in enumerate(titles):
         obj = {}
         obj[val] = bodies[idx]
-        OBJ['body']['sections'].append(obj)
+        json['data']['body']['sections'].append(obj)
     # Nav Bar
     for li in soup.find_all('li', 'nav-menu'):
         obj = {'text': li.find(text=True, recursive=True), 'a': []}
         for ul in li.find_all('ul'):
             for a in ul.find_all('a'):
                 obj['a'].append({'href': a.attrs['href'], 'text': a.getText()})
-        OBJ['nav'].append(obj)
-    return render_template('pages/index.html',
-        title=tit,
-        nav=OBJ['nav'],
-        body=OBJ['body']
-    )
+        json['data']['nav'].append(obj)
 
-@app.route('/<path:path>')
-def static_proxy(path):
-  return app.send_static_file(path)
-
-@app.route('/login')
-def login():
-    return render_template('pages/login.html')
-
-@app.route('/login', methods=['POST'])
-def handle_data():
-    print request.form
+    if (str(elements[0].text) == 'Invalid login'):
+        driver.quit()
+        json['status_code'] = 401
+        json['text'] = 'Unsuccessful Authentication.'
+        return jsonify(json)
+    else:
+        driver.quit()
+        json['status_code'] = 200
+        json['text'] = 'Successful Authentication!'
+        return jsonify(json)
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('errors/404.html'), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return render_template('errors/500.html'), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
